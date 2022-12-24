@@ -12,7 +12,7 @@ type DatabaseService struct {
 }
 
 func New(cfg *config.Config) (dbs *DatabaseService) {
-	db, err := newSqliteConnection(cfg.Database.Name)
+	db, err := newSqliteConnection(cfg.Database.Sqlite.Name)
 	if err != nil {
 		panic(fmt.Errorf("cannot connect database: %w", err))
 	}

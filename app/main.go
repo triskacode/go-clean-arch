@@ -15,7 +15,7 @@ import (
 func main() {
 	cfg := config.New()
 	dbs := database.New(cfg)
-	fmt.Println(dbs.DB.Name())
+	fmt.Println(cfg.Database.Sqlite.Name, dbs.DB.Name())
 
 	app := fiber.New()
 

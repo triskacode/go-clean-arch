@@ -17,7 +17,9 @@ type appConfig struct {
 }
 
 type databaseConfig struct {
-	Name string `mapstructure:"name"`
+	Sqlite struct {
+		Name string `mapstructure:"name"`
+	} `mapstructure:"sqlite"`
 }
 
 func init() {

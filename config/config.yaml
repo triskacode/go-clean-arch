@@ -2,4 +2,5 @@ environment: development
 application:
   port: 8001
 database:
-  name: "test.sqlite"
+  sqlite:
+    name: "test.sqlite"
