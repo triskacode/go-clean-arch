@@ -12,7 +12,7 @@ type config struct {
 }
 
 type appConfig struct {
-	Port int32
+	Port int32 `mapstructure:"port"`
 }
 
 func New() (cfg *config) {
