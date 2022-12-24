@@ -1,16 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/triskacode/go-clean-arch/config"
 )
 
 func main() {
 	app := fiber.New()
+	cfg := config.New()
 
 	app.Use(cors.New())
 	app.Use(recover.New())
@@ -22,5 +25,6 @@ func main() {
 		return c.SendString("pong")
 	})
 
-	log.Fatal(app.Listen(":9000"))
+	port := fmt.Sprintf(":%d", cfg.App.Port)
+	log.Fatal(app.Listen(port))
 }
