@@ -15,6 +15,8 @@ import (
 func main() {
 	cfg := config.New()
 	dbs := database.New(cfg)
+	defer dbs.CloseConnection()
+
 	fmt.Println(cfg.Database.Sqlite.Name, dbs.DB.Name())
 
 	app := fiber.New()

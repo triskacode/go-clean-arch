@@ -17,16 +17,13 @@ func New(cfg *config.Config) (dbs *DatabaseService) {
 		panic(fmt.Errorf("cannot connect database: %w", err))
 	}
 
-	defer func() {
-		dbInstance, _ := db.DB()
-		if err := dbInstance.Close(); err != nil {
-			panic(fmt.Errorf("cannot close database connection: %w", err))
-		}
-	}()
-
-	dbs = &DatabaseService{
-		DB: db,
-	}
-
+	dbs = &DatabaseService{DB: db}
 	return
+}
+
+func (dbs *DatabaseService) CloseConnection() {
+	conn, _ := dbs.DB.DB()
+	if err := conn.Close(); err != nil {
+		panic(fmt.Errorf("cannot close database connection: %w", err))
+	}
 }
