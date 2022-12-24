@@ -15,9 +15,7 @@ type appConfig struct {
 	Port int32
 }
 
-var cfg *config
-
-func New() *config {
+func New() (cfg *config) {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("config")
@@ -32,5 +30,5 @@ func New() *config {
 		panic(fmt.Errorf("fatal error decoding config file: %w", err))
 	}
 
-	return cfg
+	return
 }
