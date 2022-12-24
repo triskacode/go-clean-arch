@@ -21,6 +21,12 @@ func New(cfg *config.Config) (dbs *DatabaseService) {
 	return
 }
 
+func (dbs *DatabaseService) Migrate(domain ...interface{}) {
+	if err := dbs.DB.AutoMigrate(domain...); err != nil {
+		panic(fmt.Errorf("failed migrate database: %w", err))
+	}
+}
+
 func (dbs *DatabaseService) CloseConnection() {
 	conn, _ := dbs.DB.DB()
 	if err := conn.Close(); err != nil {

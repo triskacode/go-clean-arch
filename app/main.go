@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/triskacode/go-clean-arch/config"
+	"github.com/triskacode/go-clean-arch/domain"
 	"github.com/triskacode/go-clean-arch/infrastructure/database"
 )
 
@@ -17,7 +18,7 @@ func main() {
 	dbs := database.New(cfg)
 	defer dbs.CloseConnection()
 
-	fmt.Println(cfg.Database.Sqlite.Name, dbs.DB.Name())
+	dbs.Migrate(&domain.Article{}, &domain.Author{})
 
 	app := fiber.New()
 
