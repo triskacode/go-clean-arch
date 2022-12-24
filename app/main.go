@@ -9,11 +9,16 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/triskacode/go-clean-arch/config"
+	"github.com/triskacode/go-clean-arch/infrastructure/database"
 )
 
 func main() {
-	app := fiber.New()
 	cfg := config.New()
+	dbs := database.New(cfg)
+
+	fmt.Println(dbs.DB.Name())
+
+	app := fiber.New()
 
 	app.Use(cors.New())
 	app.Use(recover.New())
