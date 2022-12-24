@@ -29,7 +29,7 @@ func New() *config {
 
 	cfg = &config{}
 	if err := viper.Unmarshal(cfg); err != nil {
-		panic(fmt.Errorf("fatal error decoding config file: %v", err))
+		panic(fmt.Errorf("fatal error decoding config file: %w", err))
 	}
 
 	return cfg
