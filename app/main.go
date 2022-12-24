@@ -15,7 +15,6 @@ import (
 func main() {
 	cfg := config.New()
 	dbs := database.New(cfg)
-
 	fmt.Println(dbs.DB.Name())
 
 	app := fiber.New()

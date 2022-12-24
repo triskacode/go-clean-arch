@@ -27,14 +27,14 @@ func init() {
 	viper.AddConfigPath(".")
 
 	if err := viper.ReadInConfig(); err != nil {
-		panic(fmt.Errorf("fatal error reading config file: %w", err))
+		panic(fmt.Errorf("cannot reading config file: %w", err))
 	}
 }
 
 func New() (cfg *Config) {
 	cfg = &Config{}
 	if err := viper.Unmarshal(cfg); err != nil {
-		panic(fmt.Errorf("fatal error decoding config file: %w", err))
+		panic(fmt.Errorf("cannot decoding config file: %w", err))
 	}
 
 	return
