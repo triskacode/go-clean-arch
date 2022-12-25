@@ -1,10 +1,16 @@
 package domain
 
-import "gorm.io/gorm"
+import (
+	"database/sql"
+	"time"
+)
 
 type Article struct {
-	gorm.Model
-	Title    string
-	Content  string
-	AuthorID uint
+	ID        uint `gorm:"primarykey"`
+	Title     string
+	Content   string
+	AuthorID  uint
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt sql.NullTime `gorm:"index"`
 }
