@@ -11,6 +11,7 @@ import (
 	"github.com/triskacode/go-clean-arch/config"
 	"github.com/triskacode/go-clean-arch/domain"
 	"github.com/triskacode/go-clean-arch/infrastructure/database"
+	authorHandler "github.com/triskacode/go-clean-arch/modules/author/delivery/http/handler"
 )
 
 func main() {
@@ -31,6 +32,8 @@ func main() {
 	app.Get("/ping", func(c *fiber.Ctx) error {
 		return c.SendString("pong")
 	})
+
+	authorHandler.New(app)
 
 	port := fmt.Sprintf(":%d", cfg.App.Port)
 	log.Fatal(app.Listen(port))
