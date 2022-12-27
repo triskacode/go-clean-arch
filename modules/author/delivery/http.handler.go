@@ -6,16 +6,16 @@ import (
 	"github.com/triskacode/go-clean-arch/modules/author/validation"
 )
 
-type HttpHandler struct{}
+type httpHandler struct{}
 
-func NewHttpHandler(app *fiber.App) (h *HttpHandler) {
-	h = new(HttpHandler)
+func NewHttpHandler(app *fiber.App) (h *httpHandler) {
+	h = new(httpHandler)
 
 	app.Post("/author", h.Store)
 	return
 }
 
-func (h *HttpHandler) Store(c *fiber.Ctx) error {
+func (h httpHandler) Store(c *fiber.Ctx) error {
 	dto := new(dto.CreateAuthorDto)
 	if err := c.BodyParser(dto); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{

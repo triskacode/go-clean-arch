@@ -25,14 +25,14 @@ func (dbs databaseService) GetConnection() *gorm.DB {
 	return dbs.db
 }
 
-func (dbs *databaseService) CloseConnection() {
+func (dbs databaseService) CloseConnection() {
 	conn, _ := dbs.GetConnection().DB()
 	if err := conn.Close(); err != nil {
 		panic(fmt.Errorf("cannot close database connection: %w", err))
 	}
 }
 
-func (dbs *databaseService) Migrate(domain ...interface{}) {
+func (dbs databaseService) Migrate(domain ...interface{}) {
 	if err := dbs.GetConnection().AutoMigrate(domain...); err != nil {
 		panic(fmt.Errorf("failed migrate database: %w", err))
 	}
