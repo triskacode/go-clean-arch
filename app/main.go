@@ -8,15 +8,15 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	dbAdapter "github.com/triskacode/go-clean-arch/adapters/database"
 	"github.com/triskacode/go-clean-arch/config"
 	"github.com/triskacode/go-clean-arch/domain"
-	"github.com/triskacode/go-clean-arch/infrastructure/database"
-	authorHandler "github.com/triskacode/go-clean-arch/modules/author/delivery/http/handler"
+	"github.com/triskacode/go-clean-arch/modules/author"
 )
 
 func main() {
 	cfg := config.New()
-	dbs := database.New(cfg)
+	dbs := dbAdapter.NewConnection(cfg)
 	defer dbs.CloseConnection()
 
 	dbs.Migrate(&domain.Article{}, &domain.Author{})
@@ -33,7 +33,7 @@ func main() {
 		return c.SendString("pong")
 	})
 
-	authorHandler.New(app)
+	author.NewModule(app)
 
 	port := fmt.Sprintf(":%d", cfg.App.Port)
 	log.Fatal(app.Listen(port))
