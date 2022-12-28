@@ -2,14 +2,17 @@ package delivery
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/triskacode/go-clean-arch/modules/author/adapter"
 	"github.com/triskacode/go-clean-arch/modules/author/dto"
-	"github.com/triskacode/go-clean-arch/modules/author/validation"
 )
 
-type httpHandler struct{}
+type httpHandler struct {
+	validator adapter.AuthorValidator
+}
 
-func NewHttpHandler(app *fiber.App) (h *httpHandler) {
+func NewHttpHandler(app *fiber.App, validator adapter.AuthorValidator) (h *httpHandler) {
 	h = new(httpHandler)
+	h.validator = validator
 
 	app.Post("/author", h.Store)
 	return
@@ -23,7 +26,7 @@ func (h httpHandler) Store(c *fiber.Ctx) error {
 		})
 	}
 
-	if errors := validation.ValidateCreateAuthorDto(*dto); errors != nil {
+	if errors := h.validator.ValidateCreateAuthorDto(*dto); errors != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(errors)
 	}
 
