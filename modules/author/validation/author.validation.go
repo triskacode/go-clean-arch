@@ -17,21 +17,21 @@ func NewAuthorValidator() (v *authorValidator) {
 	return
 }
 
-func parseValidationError(obj []*exception.ErrorValidation, err error) {
+func parseValidationError(model []*exception.ErrorValidationModel, err error) {
 	for _, err := range err.(validator.ValidationErrors) {
-		fi := new(exception.ErrorValidation)
+		fi := new(exception.ErrorValidationModel)
 		fi.Field = err.Field()
 		fi.Tag = err.Tag()
 		fi.Value = err.Param()
-		obj = append(obj, fi)
+		model = append(model, fi)
 	}
 }
 
-func (v authorValidator) ValidateCreateAuthorDto(dto dto.CreateAuthorDto) []*exception.ErrorValidation {
-	errors := make([]*exception.ErrorValidation, 0)
+func (v authorValidator) ValidateCreateAuthorDto(dto dto.CreateAuthorDto) (model []*exception.ErrorValidationModel) {
+	model = make([]*exception.ErrorValidationModel, 0)
 	if err := v.validate.Struct(dto); err != nil {
-		parseValidationError(errors, err)
+		parseValidationError(model, err)
 	}
 
-	return errors
+	return
 }

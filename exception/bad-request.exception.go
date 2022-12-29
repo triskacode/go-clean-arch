@@ -1,6 +1,6 @@
 package exception
 
-type ErrorValidation struct {
+type ErrorValidationModel struct {
 	Field string `json:"field"`
 	Value string `json:"value"`
 	Tag   string `json:"tag"`

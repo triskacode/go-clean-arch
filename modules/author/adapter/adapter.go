@@ -16,5 +16,5 @@ type HttpHandler interface {
 }
 
 type AuthorValidator interface {
-	ValidateCreateAuthorDto(dto dto.CreateAuthorDto) []*exception.ErrorValidation
+	ValidateCreateAuthorDto(dto dto.CreateAuthorDto) (model []*exception.ErrorValidationModel)
 }
