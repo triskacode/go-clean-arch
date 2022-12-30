@@ -16,7 +16,7 @@ func NewModule(app *fiber.App) (mod *authorModule) {
 	mod = new(authorModule)
 
 	mod.validator = validation.NewAuthorValidator()
-	mod.handler = delivery.NewHttpHandler(app, mod.validator)
+	mod.handler = delivery.NewHttpHandler(app, mod.GetValidator())
 	return
 }
 
