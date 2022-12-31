@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	dbAdapter "github.com/triskacode/go-clean-arch/adapter/database"
+	"github.com/triskacode/go-clean-arch/adapter/database"
 	"github.com/triskacode/go-clean-arch/config"
 	"github.com/triskacode/go-clean-arch/domain"
 	author "github.com/triskacode/go-clean-arch/modules/author/bootstrap"
@@ -16,7 +16,7 @@ import (
 
 func main() {
 	cfg := config.New()
-	dbs := dbAdapter.NewConnection(cfg)
+	dbs := database.NewConnection(cfg)
 	defer dbs.CloseConnection()
 
 	dbs.Migrate(&domain.Article{}, &domain.Author{})
