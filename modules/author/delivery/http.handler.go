@@ -3,17 +3,17 @@ package delivery
 import (
 	"github.com/gofiber/fiber/v2"
 	httpAdapter "github.com/triskacode/go-clean-arch/adapter/http"
-	authorAdapter "github.com/triskacode/go-clean-arch/modules/author/adapter"
 	"github.com/triskacode/go-clean-arch/modules/author/dto"
+	"github.com/triskacode/go-clean-arch/modules/author/validation"
 )
 
 type httpHandler struct {
-	validator authorAdapter.AuthorValidator
+	validator validation.AuthorValidator
 }
 
-func NewHttpHandler(app *fiber.App, validator authorAdapter.AuthorValidator) (h *httpHandler) {
+func NewHttpHandler(app *fiber.App) (h *httpHandler) {
 	h = new(httpHandler)
-	h.validator = validator
+	h.validator = validation.NewAuthorValidator()
 
 	app.Post("/author", h.Store)
 	return

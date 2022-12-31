@@ -6,6 +6,10 @@ import (
 	"github.com/triskacode/go-clean-arch/modules/author/dto"
 )
 
+type AuthorValidator interface {
+	ValidateCreateAuthorDto(dto dto.CreateAuthorDto) (model []exception.ErrorValidationModel)
+}
+
 type authorValidator struct {
 	validate *validator.Validate
 }
