@@ -23,6 +23,8 @@ func main() {
 
 	app := fiber.New()
 
+	authorMod := author.NewModule(app, dbs.GetConnection())
+
 	app.Use(cors.New())
 	app.Use(recover.New())
 	app.Use(logger.New(logger.Config{
@@ -33,7 +35,7 @@ func main() {
 		return c.SendString("pong")
 	})
 
-	author.NewModule(app)
+	authorMod.InitializeRoute()
 
 	port := fmt.Sprintf(":%d", cfg.App.Port)
 	log.Fatal(app.Listen(port))

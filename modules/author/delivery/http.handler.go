@@ -3,26 +3,25 @@ package delivery
 import (
 	"github.com/gofiber/fiber/v2"
 	httpAdapter "github.com/triskacode/go-clean-arch/adapter/http"
+	"github.com/triskacode/go-clean-arch/modules/author/adapter"
 	"github.com/triskacode/go-clean-arch/modules/author/dto"
 	"github.com/triskacode/go-clean-arch/modules/author/validation"
 )
 
 type httpHandler struct {
-	app       *fiber.App
-	validator validation.AuthorValidator
+	validator     validation.AuthorValidator
+	authorUsecase adapter.AuthorUsecase
 }
 
-func NewHttpHandler(app *fiber.App) (h *httpHandler) {
+func NewHttpHandler(authorUsecase adapter.AuthorUsecase) (h *httpHandler) {
 	h = new(httpHandler)
 
-	h.app = app
 	h.validator = validation.NewAuthorValidator()
-
-	app.Post("/author", h.Store)
+	h.authorUsecase = authorUsecase
 	return
 }
 
-func (h httpHandler) Store(c *fiber.Ctx) error {
+func (h httpHandler) Create(c *fiber.Ctx) error {
 	dto := new(dto.CreateAuthorDto)
 	if err := c.BodyParser(dto); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(httpAdapter.ErrorRespModel{
@@ -40,8 +39,11 @@ func (h httpHandler) Store(c *fiber.Ctx) error {
 		})
 	}
 
+	author := h.authorUsecase.Create(*dto)
+
 	return c.JSON(httpAdapter.SuccessRespModel{
 		Code:    fiber.StatusOK,
 		Message: "OK",
+		Data:    author,
 	})
 }
