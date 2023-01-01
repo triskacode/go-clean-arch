@@ -8,11 +8,14 @@ import (
 )
 
 type httpHandler struct {
+	app       *fiber.App
 	validator validation.AuthorValidator
 }
 
 func NewHttpHandler(app *fiber.App) (h *httpHandler) {
 	h = new(httpHandler)
+
+	h.app = app
 	h.validator = validation.NewAuthorValidator()
 
 	app.Post("/author", h.Store)
