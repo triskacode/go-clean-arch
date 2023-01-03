@@ -8,32 +8,36 @@ import (
 )
 
 type databaseService struct {
-	db *gorm.DB
+	db     *gorm.DB
+	config *config.Config
 }
 
-func NewConnection(cfg *config.Config) (dbs *databaseService) {
+func NewDatabaseService(cfg *config.Config) (dbSvc *databaseService) {
 	db, err := newSqliteConnection(cfg.Database.Sqlite.Name)
 	if err != nil {
 		panic(fmt.Errorf("cannot connect database: %w", err))
 	}
 
-	dbs = &databaseService{db: db}
+	dbSvc = new(databaseService)
+	dbSvc.db = db
+	dbSvc.config = cfg
+
 	return
 }
 
-func (dbs databaseService) GetConnection() *gorm.DB {
-	return dbs.db
+func (dbSvc databaseService) GetConnection() *gorm.DB {
+	return dbSvc.db
 }
 
-func (dbs databaseService) CloseConnection() {
-	conn, _ := dbs.GetConnection().DB()
+func (dbSvc databaseService) CloseConnection() {
+	conn, _ := dbSvc.GetConnection().DB()
 	if err := conn.Close(); err != nil {
 		panic(fmt.Errorf("cannot close database connection: %w", err))
 	}
 }
 
-func (dbs databaseService) Migrate(domain ...interface{}) {
-	if err := dbs.GetConnection().AutoMigrate(domain...); err != nil {
+func (dbSvc databaseService) Migrate(domain ...interface{}) {
+	if err := dbSvc.GetConnection().AutoMigrate(domain...); err != nil {
 		panic(fmt.Errorf("failed migrate database: %w", err))
 	}
 }

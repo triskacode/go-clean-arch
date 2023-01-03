@@ -16,7 +16,7 @@ type authorValidator struct {
 func NewAuthorValidator() (v *authorValidator) {
 	v = new(authorValidator)
 
-	v.validator = validator.NewValidator()
+	v.validator = validator.NewCustomValidator()
 	return
 }
 

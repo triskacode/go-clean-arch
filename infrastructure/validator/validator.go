@@ -12,7 +12,7 @@ type customValidator struct {
 	validation *validator.Validate
 }
 
-func NewValidator() (v *customValidator) {
+func NewCustomValidator() (v *customValidator) {
 	v = new(customValidator)
 	v.validation = validator.New()
 	v.validation.RegisterTagNameFunc(func(fld reflect.StructField) string {
