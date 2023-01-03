@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/triskacode/go-clean-arch/exception"
 	httpAdapter "github.com/triskacode/go-clean-arch/infrastructure/http"
 	"github.com/triskacode/go-clean-arch/modules/author/adapter"
 	"github.com/triskacode/go-clean-arch/modules/author/dto"
@@ -24,19 +25,11 @@ func NewHttpHandler(authorUsecase adapter.AuthorUsecase) (h *httpHandler) {
 func (h httpHandler) Create(c *fiber.Ctx) error {
 	dto := new(dto.CreateAuthorDto)
 	if err := c.BodyParser(dto); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(httpAdapter.ErrorRespModel{
-			Code:    fiber.StatusBadRequest,
-			Message: "BAD_REQUEST",
-			Errors:  err.Error(),
-		})
+		return exception.NewBadRequestException(err.Error())
 	}
 
 	if err := h.validator.ValidateCreateAuthorDto(*dto); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(httpAdapter.ErrorRespModel{
-			Code:    fiber.StatusBadRequest,
-			Message: "BAD_REQUEST",
-			Errors:  err,
-		})
+		return exception.NewBadRequestException(err)
 	}
 
 	author := h.authorUsecase.Create(*dto)

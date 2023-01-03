@@ -9,7 +9,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/triskacode/go-clean-arch/config"
-	"github.com/triskacode/go-clean-arch/infrastructure/http/handler"
 )
 
 type httpService struct {
@@ -21,11 +20,11 @@ func NewHttpService(cfg *config.Config) (httpSvc *httpService) {
 	httpSvc = new(httpService)
 	httpSvc.config = cfg
 	httpSvc.app = fiber.New(fiber.Config{
-		ErrorHandler: handler.ExceptionHandler,
+		ErrorHandler: ExceptionHandler,
 	})
 
 	httpSvc.initializeMiddleware()
-	httpSvc.app.Get("/ping", handler.HealthCheckHandler)
+	httpSvc.app.Get("/ping", HealthCheckHandler)
 
 	return
 }
