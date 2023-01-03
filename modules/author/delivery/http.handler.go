@@ -2,7 +2,7 @@ package delivery
 
 import (
 	"github.com/gofiber/fiber/v2"
-	httpAdapter "github.com/triskacode/go-clean-arch/adapter/http"
+	httpAdapter "github.com/triskacode/go-clean-arch/infrastructure/http"
 	"github.com/triskacode/go-clean-arch/modules/author/adapter"
 	"github.com/triskacode/go-clean-arch/modules/author/dto"
 	"github.com/triskacode/go-clean-arch/modules/author/validation"
@@ -15,9 +15,9 @@ type httpHandler struct {
 
 func NewHttpHandler(authorUsecase adapter.AuthorUsecase) (h *httpHandler) {
 	h = new(httpHandler)
-
 	h.validator = validation.NewAuthorValidator()
 	h.authorUsecase = authorUsecase
+
 	return
 }
 

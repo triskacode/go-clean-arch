@@ -8,9 +8,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/triskacode/go-clean-arch/adapter/database"
 	"github.com/triskacode/go-clean-arch/config"
 	"github.com/triskacode/go-clean-arch/domain"
+	"github.com/triskacode/go-clean-arch/infrastructure/database"
 	author "github.com/triskacode/go-clean-arch/modules/author/bootstrap"
 )
 
