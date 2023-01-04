@@ -32,7 +32,10 @@ func (h httpHandler) Create(c *fiber.Ctx) error {
 		return exception.NewBadRequestException(err)
 	}
 
-	author := h.authorUsecase.Create(*dto)
+	author, err := h.authorUsecase.Create(*dto)
+	if err != nil {
+		return err
+	}
 
 	return c.JSON(httpAdapter.SuccessRespModel{
 		Code:    fiber.StatusOK,

@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"fmt"
-
 	"github.com/triskacode/go-clean-arch/domain"
 	"gorm.io/gorm"
 )
@@ -13,13 +11,15 @@ type authorRepository struct {
 
 func NewAuthorRepository(conn *gorm.DB) (r *authorRepository) {
 	r = new(authorRepository)
-
 	r.conn = conn
+
 	return
 }
 
 func (r authorRepository) Create(author *domain.Author) error {
-	result := r.conn.Create(author)
-	fmt.Println(result)
+	if result := r.conn.Create(author); result.Error != nil {
+		return result.Error
+	}
+
 	return nil
 }

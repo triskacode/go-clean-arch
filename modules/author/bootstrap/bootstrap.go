@@ -18,11 +18,11 @@ type authorModule struct {
 
 func NewModule(app *fiber.App, conn *gorm.DB) (m *authorModule) {
 	m = new(authorModule)
-
 	m.app = app
 	m.authorRepository = repository.NewAuthorRepository(conn)
 	m.authorUsecase = usecase.NewAuthorUsecase(m.GetAuthorRepository())
 	m.httpHandler = delivery.NewHttpHandler(m.GetAuthorUsecase())
+
 	return
 }
 

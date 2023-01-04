@@ -49,5 +49,5 @@ func getMessageForError(fe validator.FieldError) string {
 		return fmt.Sprintf("field %s must be an email", fe.Field())
 	}
 
-	return fmt.Sprintf("field %s must implement type %s", fe.Field(), fe.Tag())
+	return fmt.Sprintf("field %s must implement rule %s", fe.Field(), fe.Tag())
 }

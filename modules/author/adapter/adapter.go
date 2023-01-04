@@ -3,6 +3,7 @@ package adapter
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/triskacode/go-clean-arch/domain"
+	"github.com/triskacode/go-clean-arch/exception"
 	"github.com/triskacode/go-clean-arch/modules/author/dto"
 )
 
@@ -18,7 +19,7 @@ type HttpHandler interface {
 }
 
 type AuthorUsecase interface {
-	Create(dto dto.CreateAuthorDto) dto.AuthorResponseDto
+	Create(f dto.CreateAuthorDto) (*dto.AuthorResponseDto, *exception.HttpException)
 }
 
 type AuthorRepository interface {
