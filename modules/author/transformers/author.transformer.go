@@ -17,7 +17,7 @@ func NewAuthorTransformer() (t *authorTransformer) {
 	return
 }
 
-func (t authorTransformer) ToSingleResponse(author domain.Author) *dto.AuthorResponseDto {
+func (t *authorTransformer) ToSingleResponse(author domain.Author) *dto.AuthorResponseDto {
 	return &dto.AuthorResponseDto{
 		ID:        author.ID,
 		Name:      author.Name,

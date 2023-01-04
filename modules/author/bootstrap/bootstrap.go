@@ -26,18 +26,18 @@ func NewModule(app *fiber.App, conn *gorm.DB) (m *authorModule) {
 	return
 }
 
-func (m authorModule) InitializeRoute() {
+func (m *authorModule) InitializeRoute() {
 	m.app.Post("/author", m.GetHttpHandler().Create)
 }
 
-func (m authorModule) GetHttpHandler() adapter.HttpHandler {
+func (m *authorModule) GetHttpHandler() adapter.HttpHandler {
 	return m.httpHandler
 }
 
-func (m authorModule) GetAuthorUsecase() adapter.AuthorUsecase {
+func (m *authorModule) GetAuthorUsecase() adapter.AuthorUsecase {
 	return m.authorUsecase
 }
 
-func (m authorModule) GetAuthorRepository() adapter.AuthorRepository {
+func (m *authorModule) GetAuthorRepository() adapter.AuthorRepository {
 	return m.authorRepository
 }

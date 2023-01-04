@@ -16,7 +16,7 @@ func NewAuthorRepository(conn *gorm.DB) (r *authorRepository) {
 	return
 }
 
-func (r authorRepository) Create(author *domain.Author) error {
+func (r *authorRepository) Create(author *domain.Author) error {
 	if result := r.conn.Create(author); result.Error != nil {
 		return result.Error
 	}

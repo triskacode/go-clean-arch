@@ -21,7 +21,7 @@ func NewAuthorUsecase(authorRepository adapter.AuthorRepository) (u *authorUseca
 	return
 }
 
-func (u authorUsecase) Create(f dto.CreateAuthorDto) (*dto.AuthorResponseDto, *exception.HttpException) {
+func (u *authorUsecase) Create(f dto.CreateAuthorDto) (*dto.AuthorResponseDto, *exception.HttpException) {
 	author := &domain.Author{
 		Name:  f.Name,
 		Title: f.Title,

@@ -20,7 +20,7 @@ func NewAuthorValidator() (v *authorValidator) {
 	return
 }
 
-func (v authorValidator) ValidateCreateAuthorDto(f dto.CreateAuthorDto) (errModel validator.ValidationErrorModel) {
+func (v *authorValidator) ValidateCreateAuthorDto(f dto.CreateAuthorDto) (errModel validator.ValidationErrorModel) {
 	if err := v.validator.ValidateStruct(f); err != nil {
 		errModel = v.validator.ParseErrors(err)
 	}

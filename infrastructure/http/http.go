@@ -29,7 +29,7 @@ func NewHttpService(cfg *config.Config) (httpSvc *httpService) {
 	return
 }
 
-func (httpSvc httpService) initializeMiddleware() {
+func (httpSvc *httpService) initializeMiddleware() {
 	httpSvc.app.Use(cors.New())
 	httpSvc.app.Use(recover.New())
 	httpSvc.app.Use(logger.New(logger.Config{
@@ -37,11 +37,11 @@ func (httpSvc httpService) initializeMiddleware() {
 	}))
 }
 
-func (httpSvc httpService) GetApp() *fiber.App {
+func (httpSvc *httpService) GetApp() *fiber.App {
 	return httpSvc.app
 }
 
-func (httpSvc httpService) Run() {
+func (httpSvc *httpService) Run() {
 	port := fmt.Sprintf(":%d", httpSvc.config.App.Port)
 	log.Fatal(httpSvc.app.Listen(port))
 }

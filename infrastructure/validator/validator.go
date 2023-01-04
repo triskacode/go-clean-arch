@@ -26,11 +26,11 @@ func NewCustomValidator() (v *customValidator) {
 	return
 }
 
-func (v customValidator) ValidateStruct(s interface{}) error {
+func (v *customValidator) ValidateStruct(s interface{}) error {
 	return v.validation.Struct(s)
 }
 
-func (v customValidator) ParseErrors(err error) (model ValidationErrorModel) {
+func (v *customValidator) ParseErrors(err error) (model ValidationErrorModel) {
 	model = make(ValidationErrorModel)
 	for _, err := range err.(validator.ValidationErrors) {
 		if _, ok := model[err.Field()]; !ok {

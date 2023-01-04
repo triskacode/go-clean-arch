@@ -25,18 +25,18 @@ func NewDatabaseService(cfg *config.Config) (dbSvc *databaseService) {
 	return
 }
 
-func (dbSvc databaseService) GetConnection() *gorm.DB {
+func (dbSvc *databaseService) GetConnection() *gorm.DB {
 	return dbSvc.db
 }
 
-func (dbSvc databaseService) CloseConnection() {
+func (dbSvc *databaseService) CloseConnection() {
 	conn, _ := dbSvc.GetConnection().DB()
 	if err := conn.Close(); err != nil {
 		panic(fmt.Errorf("cannot close database connection: %w", err))
 	}
 }
 
-func (dbSvc databaseService) Migrate(domain ...interface{}) {
+func (dbSvc *databaseService) Migrate(domain ...interface{}) {
 	if err := dbSvc.GetConnection().AutoMigrate(domain...); err != nil {
 		panic(fmt.Errorf("failed migrate database: %w", err))
 	}

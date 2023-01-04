@@ -22,7 +22,7 @@ func NewHttpHandler(authorUsecase adapter.AuthorUsecase) (h *httpHandler) {
 	return
 }
 
-func (h httpHandler) Create(c *fiber.Ctx) error {
+func (h *httpHandler) Create(c *fiber.Ctx) error {
 	f := new(dto.CreateAuthorDto)
 	if err := c.BodyParser(f); err != nil {
 		return exception.NewBadRequestException(err.Error())
