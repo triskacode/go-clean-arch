@@ -6,7 +6,7 @@ import (
 )
 
 type AuthorValidator interface {
-	ValidateCreateAuthorDto(dto dto.CreateAuthorDto) (model validator.ValidationErrorModel)
+	ValidateCreateAuthorDto(f dto.CreateAuthorDto) (errModel validator.ValidationErrorModel)
 }
 
 type authorValidator struct {
@@ -20,8 +20,8 @@ func NewAuthorValidator() (v *authorValidator) {
 	return
 }
 
-func (v authorValidator) ValidateCreateAuthorDto(dto dto.CreateAuthorDto) (errModel validator.ValidationErrorModel) {
-	if err := v.validator.ValidateStruct(dto); err != nil {
+func (v authorValidator) ValidateCreateAuthorDto(f dto.CreateAuthorDto) (errModel validator.ValidationErrorModel) {
+	if err := v.validator.ValidateStruct(f); err != nil {
 		errModel = v.validator.ParseErrors(err)
 	}
 

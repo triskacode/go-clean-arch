@@ -23,16 +23,16 @@ func NewHttpHandler(authorUsecase adapter.AuthorUsecase) (h *httpHandler) {
 }
 
 func (h httpHandler) Create(c *fiber.Ctx) error {
-	dto := new(dto.CreateAuthorDto)
-	if err := c.BodyParser(dto); err != nil {
+	f := new(dto.CreateAuthorDto)
+	if err := c.BodyParser(f); err != nil {
 		return exception.NewBadRequestException(err.Error())
 	}
 
-	if err := h.validator.ValidateCreateAuthorDto(*dto); err != nil {
+	if err := h.validator.ValidateCreateAuthorDto(*f); err != nil {
 		return exception.NewBadRequestException(err)
 	}
 
-	author, err := h.authorUsecase.Create(*dto)
+	author, err := h.authorUsecase.Create(*f)
 	if err != nil {
 		return err
 	}

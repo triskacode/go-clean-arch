@@ -12,14 +12,14 @@ func HealthCheckHandler(c *fiber.Ctx) error {
 	return c.SendString("pong")
 }
 
-func ExceptionHandler(ctx *fiber.Ctx, err error) error {
-	ctx.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSONCharsetUTF8)
+func ExceptionHandler(c *fiber.Ctx, err error) error {
+	c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSONCharsetUTF8)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 	log.Println(err)
 
 	var e *exception.HttpException
 	if errors.As(err, &e) {
-		return ctx.Status(int(e.Code)).JSON(ErrorRespModel{
+		return c.Status(int(e.Code)).JSON(ErrorRespModel{
 			Code:    e.Code,
 			Message: e.Message,
 			Errors:  e.Errors,
@@ -27,7 +27,7 @@ func ExceptionHandler(ctx *fiber.Ctx, err error) error {
 
 	}
 
-	return ctx.Status(fiber.StatusInternalServerError).JSON(ErrorRespModel{
+	return c.Status(fiber.StatusInternalServerError).JSON(ErrorRespModel{
 		Code:    fiber.StatusInternalServerError,
 		Message: "INTERNAL_SERVER_ERROR",
 	})
