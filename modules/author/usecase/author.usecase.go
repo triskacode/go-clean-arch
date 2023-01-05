@@ -21,6 +21,17 @@ func NewAuthorUsecase(authorRepository adapter.AuthorRepository) (u *authorUseca
 	return
 }
 
+func (u *authorUsecase) FindAll() (*[]dto.AuthorResponseDto, *exception.HttpException) {
+	authors := make([]domain.Author, 0)
+
+	if err := u.authorRepository.FindAll(&authors); err != nil {
+		res := make([]dto.AuthorResponseDto, 0)
+		return &res, exception.NewInternalServerErrorException(err.Error())
+	}
+
+	return u.authorTransformer.ToSliceResponse(authors), nil
+}
+
 func (u *authorUsecase) Create(f dto.CreateAuthorDto) (*dto.AuthorResponseDto, *exception.HttpException) {
 	author := &domain.Author{
 		Name:  f.Name,
@@ -28,7 +39,8 @@ func (u *authorUsecase) Create(f dto.CreateAuthorDto) (*dto.AuthorResponseDto, *
 	}
 
 	if err := u.authorRepository.Create(author); err != nil {
-		return &dto.AuthorResponseDto{}, exception.NewInternalServerErrorException(err.Error())
+		res := new(dto.AuthorResponseDto)
+		return res, exception.NewInternalServerErrorException(err.Error())
 	}
 
 	return u.authorTransformer.ToSingleResponse(*author), nil

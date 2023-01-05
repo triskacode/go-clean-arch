@@ -7,6 +7,7 @@ import (
 
 type AuthorTransformer interface {
 	ToSingleResponse(author domain.Author) *dto.AuthorResponseDto
+	ToSliceResponse(authors []domain.Author) *[]dto.AuthorResponseDto
 }
 
 type authorTransformer struct{}
@@ -26,4 +27,14 @@ func (t *authorTransformer) ToSingleResponse(author domain.Author) *dto.AuthorRe
 		CreatedAt: author.CreatedAt,
 		UpdatedAt: author.UpdatedAt,
 	}
+}
+
+func (t *authorTransformer) ToSliceResponse(authors []domain.Author) *[]dto.AuthorResponseDto {
+	resp := make([]dto.AuthorResponseDto, 0)
+
+	for _, author := range authors {
+		resp = append(resp, *t.ToSingleResponse(author))
+	}
+
+	return &resp
 }

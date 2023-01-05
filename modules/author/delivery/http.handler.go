@@ -22,6 +22,19 @@ func NewHttpHandler(authorUsecase adapter.AuthorUsecase) (h *httpHandler) {
 	return
 }
 
+func (h *httpHandler) FindAll(c *fiber.Ctx) error {
+	authors, err := h.authorUsecase.FindAll()
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(httpAdapter.SuccessRespModel{
+		Code:    fiber.StatusOK,
+		Message: "OK",
+		Data:    authors,
+	})
+}
+
 func (h *httpHandler) Create(c *fiber.Ctx) error {
 	f := new(dto.CreateAuthorDto)
 	if err := c.BodyParser(f); err != nil {

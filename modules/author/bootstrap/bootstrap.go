@@ -27,6 +27,7 @@ func NewModule(app *fiber.App, conn *gorm.DB) (m *authorModule) {
 }
 
 func (m *authorModule) InitializeRoute() {
+	m.app.Get("/author", m.GetHttpHandler().FindAll)
 	m.app.Post("/author", m.GetHttpHandler().Create)
 }
 
