@@ -21,27 +21,29 @@ func NewAuthorUsecase(authorRepository adapter.AuthorRepository) (u *authorUseca
 	return
 }
 
-func (u *authorUsecase) FindAll() (*[]dto.AuthorResponseDto, *exception.HttpException) {
+func (u *authorUsecase) FindAll() (r *[]dto.AuthorResponseDto, e *exception.HttpException) {
 	authors := make([]domain.Author, 0)
 
 	if err := u.authorRepository.FindAll(&authors); err != nil {
-		res := make([]dto.AuthorResponseDto, 0)
-		return &res, exception.NewInternalServerErrorException(err.Error())
+		e = exception.NewInternalServerErrorException(err.Error())
+		return
 	}
 
-	return u.authorTransformer.ToSliceResponse(authors), nil
+	r = u.authorTransformer.ToSliceResponse(authors)
+	return
 }
 
-func (u *authorUsecase) Create(f dto.CreateAuthorDto) (*dto.AuthorResponseDto, *exception.HttpException) {
-	author := &domain.Author{
+func (u *authorUsecase) Create(f dto.CreateAuthorDto) (r *dto.AuthorResponseDto, e *exception.HttpException) {
+	author := domain.Author{
 		Name:  f.Name,
 		Title: f.Title,
 	}
 
-	if err := u.authorRepository.Create(author); err != nil {
-		res := new(dto.AuthorResponseDto)
-		return res, exception.NewInternalServerErrorException(err.Error())
+	if err := u.authorRepository.Create(&author); err != nil {
+		e = exception.NewInternalServerErrorException(err.Error())
+		return
 	}
 
-	return u.authorTransformer.ToSingleResponse(*author), nil
+	r = u.authorTransformer.ToSingleResponse(author)
+	return
 }

@@ -20,8 +20,8 @@ type HttpHandler interface {
 }
 
 type AuthorUsecase interface {
-	FindAll() (*[]dto.AuthorResponseDto, *exception.HttpException)
-	Create(f dto.CreateAuthorDto) (*dto.AuthorResponseDto, *exception.HttpException)
+	FindAll() (r *[]dto.AuthorResponseDto, e *exception.HttpException)
+	Create(f dto.CreateAuthorDto) (r *dto.AuthorResponseDto, e *exception.HttpException)
 }
 
 type AuthorRepository interface {
