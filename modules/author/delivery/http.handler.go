@@ -28,7 +28,7 @@ func (h *httpHandler) FindAll(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(httpAdapter.SuccessRespModel{
+	return c.Status(fiber.StatusOK).JSON(httpAdapter.SuccessRespModel{
 		Code:    fiber.StatusOK,
 		Message: "OK",
 		Data:    authors,
@@ -50,7 +50,7 @@ func (h *httpHandler) Create(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(httpAdapter.SuccessRespModel{
+	return c.Status(fiber.StatusCreated).JSON(httpAdapter.SuccessRespModel{
 		Code:    fiber.StatusCreated,
 		Message: "CREATED",
 		Data:    author,
@@ -69,7 +69,7 @@ func (h *httpHandler) FindById(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.JSON(httpAdapter.SuccessRespModel{
+	return c.Status(fiber.StatusOK).JSON(httpAdapter.SuccessRespModel{
 		Code:    fiber.StatusOK,
 		Message: "OK",
 		Data:    author,
