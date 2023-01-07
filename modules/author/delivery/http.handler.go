@@ -64,7 +64,7 @@ func (h *httpHandler) FindById(c *fiber.Ctx) error {
 		return exception.NewNotFoundException(nil)
 	}
 
-	authors, err := h.authorUsecase.FindById(*p)
+	author, err := h.authorUsecase.FindById(*p)
 	if err != nil {
 		return err
 	}
@@ -72,6 +72,6 @@ func (h *httpHandler) FindById(c *fiber.Ctx) error {
 	return c.JSON(httpAdapter.SuccessRespModel{
 		Code:    fiber.StatusOK,
 		Message: "OK",
-		Data:    authors,
+		Data:    author,
 	})
 }
