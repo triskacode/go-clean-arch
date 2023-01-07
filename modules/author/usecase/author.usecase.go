@@ -1,11 +1,14 @@
 package usecase
 
 import (
+	"errors"
+
 	"github.com/triskacode/go-clean-arch/domain"
 	"github.com/triskacode/go-clean-arch/exception"
 	"github.com/triskacode/go-clean-arch/modules/author/adapter"
 	"github.com/triskacode/go-clean-arch/modules/author/dto"
 	"github.com/triskacode/go-clean-arch/modules/author/transformers"
+	"gorm.io/gorm"
 )
 
 type authorUsecase struct {
@@ -42,6 +45,26 @@ func (u *authorUsecase) Create(f dto.CreateAuthorDto) (r *dto.AuthorResponseDto,
 	if err := u.authorRepository.Create(&author); err != nil {
 		e = exception.NewInternalServerErrorException(err.Error())
 		return
+	}
+
+	r = u.authorTransformer.ToSingleResponse(author)
+	return
+}
+
+func (u *authorUsecase) FindById(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e *exception.HttpException) {
+	author := domain.Author{
+		ID: p.ID,
+	}
+
+	if err := u.authorRepository.FindById(&author); err != nil {
+		switch {
+		case errors.Is(err, gorm.ErrRecordNotFound):
+			e = exception.NewNotFoundException(err.Error())
+			return
+		default:
+			e = exception.NewInternalServerErrorException(err.Error())
+			return
+		}
 	}
 
 	r = u.authorTransformer.ToSingleResponse(author)

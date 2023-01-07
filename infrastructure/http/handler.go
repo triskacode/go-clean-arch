@@ -15,6 +15,7 @@ func HealthCheckHandler(c *fiber.Ctx) error {
 func ExceptionHandler(c *fiber.Ctx, err error) error {
 	c.Set(fiber.HeaderContentType, fiber.MIMEApplicationJSONCharsetUTF8)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	log.SetPrefix("\033[31m[ERROR]\033[0m ")
 	log.Println(err)
 
 	var e *exception.HttpException

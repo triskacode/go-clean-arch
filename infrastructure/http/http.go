@@ -33,7 +33,8 @@ func (httpSvc *httpService) initializeMiddleware() {
 	httpSvc.app.Use(cors.New())
 	httpSvc.app.Use(recover.New())
 	httpSvc.app.Use(logger.New(logger.Config{
-		Format: "[${time}] ${status} - ${latency} ${method} ${path}\n",
+		Format:     "${cyan}[INFO]${reset} ${time} ${status} - ${latency} ${method} ${path}\n",
+		TimeFormat: "2006/01/02 15:04:05",
 	}))
 }
 

@@ -11,6 +11,10 @@ type CreateAuthorDto struct {
 	Title string `json:"title" form:"title" validate:"required"`
 }
 
+type ParamIdDto struct {
+	ID uint `params:"id"`
+}
+
 type AuthorResponseDto struct {
 	ID        uint             `json:"id"`
 	Name      string           `json:"name"`

@@ -38,7 +38,7 @@ func (h *httpHandler) FindAll(c *fiber.Ctx) error {
 func (h *httpHandler) Create(c *fiber.Ctx) error {
 	f := new(dto.CreateAuthorDto)
 	if err := c.BodyParser(f); err != nil {
-		return exception.NewBadRequestException(err.Error())
+		return exception.NewBadRequestException(nil)
 	}
 
 	if err := h.validator.ValidateCreateAuthorDto(*f); err != nil {
@@ -54,5 +54,24 @@ func (h *httpHandler) Create(c *fiber.Ctx) error {
 		Code:    fiber.StatusOK,
 		Message: "OK",
 		Data:    author,
+	})
+}
+
+func (h *httpHandler) FindById(c *fiber.Ctx) error {
+	p := new(dto.ParamIdDto)
+
+	if err := c.ParamsParser(p); err != nil {
+		return exception.NewNotFoundException(nil)
+	}
+
+	authors, err := h.authorUsecase.FindById(*p)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(httpAdapter.SuccessRespModel{
+		Code:    fiber.StatusOK,
+		Message: "OK",
+		Data:    authors,
 	})
 }
