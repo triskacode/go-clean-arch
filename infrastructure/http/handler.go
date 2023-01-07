@@ -23,7 +23,7 @@ func ExceptionHandler(c *fiber.Ctx, err error) error {
 		return c.Status(int(e.Code)).JSON(ErrorRespModel{
 			Code:    e.Code,
 			Message: e.Message,
-			Errors:  e.Errors,
+			Errors:  e.Detail,
 		})
 
 	}
