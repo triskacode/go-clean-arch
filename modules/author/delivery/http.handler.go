@@ -51,8 +51,8 @@ func (h *httpHandler) Create(c *fiber.Ctx) error {
 	}
 
 	return c.JSON(httpAdapter.SuccessRespModel{
-		Code:    fiber.StatusOK,
-		Message: "OK",
+		Code:    fiber.StatusCreated,
+		Message: "CREATED",
 		Data:    author,
 	})
 }
