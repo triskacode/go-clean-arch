@@ -58,8 +58,11 @@ func (r *authorRepository) Update(author *domain.Author, f dto.UpdateAuthorDto) 
 }
 
 func (r *authorRepository) Delete(author *domain.Author) error {
-	if result := r.conn.Delete(author); result.Error != nil {
+	switch result := r.conn.Delete(author); {
+	case result.Error != nil:
 		return result.Error
+	case result.RowsAffected == 0:
+		return gorm.ErrRecordNotFound
 	}
 
 	return nil

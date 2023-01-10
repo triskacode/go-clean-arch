@@ -108,14 +108,12 @@ func (h *httpHandler) Delete(c *fiber.Ctx) error {
 		return exception.NewNotFoundException(nil)
 	}
 
-	author, err := h.authorUsecase.Delete(*p)
-	if err != nil {
+	if err := h.authorUsecase.Delete(*p); err != nil {
 		return err
 	}
 
 	return c.Status(fiber.StatusOK).JSON(httpAdapter.SuccessRespModel{
 		Code:    fiber.StatusOK,
 		Message: "OK",
-		Data:    author,
 	})
 }

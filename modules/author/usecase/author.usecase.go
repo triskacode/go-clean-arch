@@ -91,27 +91,19 @@ func (u *authorUsecase) Update(p dto.ParamIdDto, f dto.UpdateAuthorDto) (r *dto.
 	return
 }
 
-func (u *authorUsecase) Delete(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e *exception.HttpException) {
+func (u *authorUsecase) Delete(p dto.ParamIdDto) *exception.HttpException {
 	author := domain.Author{
 		ID: p.ID,
 	}
 
-	if err := u.authorRepository.FindById(&author); err != nil {
+	if err := u.authorRepository.Delete(&author); err != nil {
 		switch {
 		case errors.Is(err, gorm.ErrRecordNotFound):
-			e = exception.NewNotFoundException(err.Error())
-			return
+			return exception.NewNotFoundException(err.Error())
 		default:
-			e = exception.NewInternalServerErrorException(err.Error())
-			return
+			return exception.NewInternalServerErrorException(err.Error())
 		}
 	}
 
-	if err := u.authorRepository.Delete(&author); err != nil {
-		e = exception.NewInternalServerErrorException(err.Error())
-		return
-	}
-
-	r = u.authorTransformer.ToSingleResponse(author)
-	return
+	return nil
 }

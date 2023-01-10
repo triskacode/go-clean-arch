@@ -27,7 +27,7 @@ type AuthorUsecase interface {
 	Create(f dto.CreateAuthorDto) (r *dto.AuthorResponseDto, e *exception.HttpException)
 	FindById(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e *exception.HttpException)
 	Update(p dto.ParamIdDto, f dto.UpdateAuthorDto) (r *dto.AuthorResponseDto, e *exception.HttpException)
-	Delete(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e *exception.HttpException)
+	Delete(p dto.ParamIdDto) *exception.HttpException
 }
 
 type AuthorRepository interface {
