@@ -19,6 +19,7 @@ type HttpHandler interface {
 	Create(c *fiber.Ctx) error
 	FindById(c *fiber.Ctx) error
 	Update(c *fiber.Ctx) error
+	Delete(c *fiber.Ctx) error
 }
 
 type AuthorUsecase interface {
@@ -26,6 +27,7 @@ type AuthorUsecase interface {
 	Create(f dto.CreateAuthorDto) (r *dto.AuthorResponseDto, e *exception.HttpException)
 	FindById(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e *exception.HttpException)
 	Update(p dto.ParamIdDto, f dto.UpdateAuthorDto) (r *dto.AuthorResponseDto, e *exception.HttpException)
+	Delete(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e *exception.HttpException)
 }
 
 type AuthorRepository interface {
@@ -33,4 +35,5 @@ type AuthorRepository interface {
 	Create(author *domain.Author) error
 	FindById(author *domain.Author) error
 	Update(author *domain.Author, f dto.UpdateAuthorDto) error
+	Delete(author *domain.Author) error
 }

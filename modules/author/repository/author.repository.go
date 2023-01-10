@@ -53,3 +53,11 @@ func (r *authorRepository) Update(author *domain.Author, f dto.UpdateAuthorDto) 
 
 	return nil
 }
+
+func (r *authorRepository) Delete(author *domain.Author) error {
+	if result := r.conn.Delete(author); result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
