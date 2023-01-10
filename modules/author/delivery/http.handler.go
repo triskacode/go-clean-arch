@@ -59,12 +59,38 @@ func (h *httpHandler) Create(c *fiber.Ctx) error {
 
 func (h *httpHandler) FindById(c *fiber.Ctx) error {
 	p := new(dto.ParamIdDto)
-
 	if err := c.ParamsParser(p); err != nil {
 		return exception.NewNotFoundException(nil)
 	}
 
 	author, err := h.authorUsecase.FindById(*p)
+	if err != nil {
+		return err
+	}
+
+	return c.Status(fiber.StatusOK).JSON(httpAdapter.SuccessRespModel{
+		Code:    fiber.StatusOK,
+		Message: "OK",
+		Data:    author,
+	})
+}
+
+func (h *httpHandler) Update(c *fiber.Ctx) error {
+	p := new(dto.ParamIdDto)
+	if err := c.ParamsParser(p); err != nil {
+		return exception.NewNotFoundException(nil)
+	}
+
+	f := new(dto.UpdateAuthorDto)
+	if err := c.BodyParser(f); err != nil {
+		return exception.NewBadRequestException(nil)
+	}
+
+	if err := h.validator.ValidateUpdateAuthorDto(*f); err != nil {
+		return exception.NewBadRequestException(err)
+	}
+
+	author, err := h.authorUsecase.Update(*p, *f)
 	if err != nil {
 		return err
 	}

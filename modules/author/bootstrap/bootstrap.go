@@ -30,6 +30,7 @@ func (m *authorModule) InitializeRoute() {
 	m.app.Get("/author", m.GetHttpHandler().FindAll)
 	m.app.Post("/author", m.GetHttpHandler().Create)
 	m.app.Get("/author/:id", m.GetHttpHandler().FindById)
+	m.app.Patch("/author/:id", m.GetHttpHandler().Update)
 }
 
 func (m *authorModule) GetHttpHandler() adapter.HttpHandler {

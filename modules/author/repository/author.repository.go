@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/triskacode/go-clean-arch/domain"
+	"github.com/triskacode/go-clean-arch/modules/author/dto"
 	"gorm.io/gorm"
 )
 
@@ -34,6 +35,19 @@ func (r *authorRepository) Create(author *domain.Author) error {
 
 func (r *authorRepository) FindById(author *domain.Author) error {
 	if result := r.conn.First(author); result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
+
+func (r *authorRepository) Update(author *domain.Author, f dto.UpdateAuthorDto) error {
+	updateSet := domain.Author{
+		Name:  *f.Name,
+		Title: *f.Title,
+	}
+
+	if result := r.conn.Model(author).Updates(updateSet); result.Error != nil {
 		return result.Error
 	}
 

@@ -70,3 +70,28 @@ func (u *authorUsecase) FindById(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e 
 	r = u.authorTransformer.ToSingleResponse(author)
 	return
 }
+
+func (u *authorUsecase) Update(p dto.ParamIdDto, f dto.UpdateAuthorDto) (r *dto.AuthorResponseDto, e *exception.HttpException) {
+	author := domain.Author{
+		ID: p.ID,
+	}
+
+	if err := u.authorRepository.FindById(&author); err != nil {
+		switch {
+		case errors.Is(err, gorm.ErrRecordNotFound):
+			e = exception.NewNotFoundException(err.Error())
+			return
+		default:
+			e = exception.NewInternalServerErrorException(err.Error())
+			return
+		}
+	}
+
+	if err := u.authorRepository.Update(&author, f); err != nil {
+		e = exception.NewInternalServerErrorException(err.Error())
+		return
+	}
+
+	r = u.authorTransformer.ToSingleResponse(author)
+	return
+}

@@ -15,6 +15,11 @@ type ParamIdDto struct {
 	ID uint `params:"id"`
 }
 
+type UpdateAuthorDto struct {
+	Name  *string `json:"name" form:"name"`
+	Title *string `json:"title" form:"title"`
+}
+
 type AuthorResponseDto struct {
 	ID        uint             `json:"id"`
 	Name      string           `json:"name"`
