@@ -47,8 +47,11 @@ func (r *authorRepository) Update(author *domain.Author, f dto.UpdateAuthorDto) 
 		Title: *f.Title,
 	}
 
-	if result := r.conn.Model(author).Updates(updateSet); result.Error != nil {
+	switch result := r.conn.Model(author).Updates(updateSet); {
+	case result.Error != nil:
 		return result.Error
+	case result.RowsAffected == 0:
+		return gorm.ErrRecordNotFound
 	}
 
 	return nil

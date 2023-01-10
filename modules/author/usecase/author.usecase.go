@@ -76,7 +76,7 @@ func (u *authorUsecase) Update(p dto.ParamIdDto, f dto.UpdateAuthorDto) (r *dto.
 		ID: p.ID,
 	}
 
-	if err := u.authorRepository.FindById(&author); err != nil {
+	if err := u.authorRepository.Update(&author, f); err != nil {
 		switch {
 		case errors.Is(err, gorm.ErrRecordNotFound):
 			e = exception.NewNotFoundException(err.Error())
@@ -85,11 +85,6 @@ func (u *authorUsecase) Update(p dto.ParamIdDto, f dto.UpdateAuthorDto) (r *dto.
 			e = exception.NewInternalServerErrorException(err.Error())
 			return
 		}
-	}
-
-	if err := u.authorRepository.Update(&author, f); err != nil {
-		e = exception.NewInternalServerErrorException(err.Error())
-		return
 	}
 
 	r = u.authorTransformer.ToSingleResponse(author)
