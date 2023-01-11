@@ -16,10 +16,15 @@ type authorModule struct {
 	authorRepository adapter.AuthorRepository
 }
 
-func NewModule(app *fiber.App, conn *gorm.DB) (m *authorModule) {
+type ModuleDeps struct {
+	App *fiber.App
+	DB  *gorm.DB
+}
+
+func NewModule(deps ModuleDeps) (m *authorModule) {
 	m = new(authorModule)
-	m.app = app
-	m.authorRepository = repository.NewAuthorRepository(conn)
+	m.app = deps.App
+	m.authorRepository = repository.NewAuthorRepository(deps.DB)
 	m.authorUsecase = usecase.NewAuthorUsecase(m.GetAuthorRepository())
 	m.httpHandler = delivery.NewHttpHandler(m.GetAuthorUsecase())
 
