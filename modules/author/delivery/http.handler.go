@@ -3,7 +3,7 @@ package delivery
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/triskacode/go-clean-arch/exception"
-	httpAdapter "github.com/triskacode/go-clean-arch/infrastructure/http"
+	"github.com/triskacode/go-clean-arch/infrastructure/http"
 	"github.com/triskacode/go-clean-arch/modules/author/adapter"
 	"github.com/triskacode/go-clean-arch/modules/author/dto"
 	"github.com/triskacode/go-clean-arch/modules/author/validation"
@@ -28,7 +28,7 @@ func (h *httpHandler) FindAll(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.Status(fiber.StatusOK).JSON(httpAdapter.SuccessRespModel{
+	return c.Status(fiber.StatusOK).JSON(http.SuccessRespModel{
 		Code:    fiber.StatusOK,
 		Message: "OK",
 		Data:    authors,
@@ -50,7 +50,7 @@ func (h *httpHandler) Create(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(httpAdapter.SuccessRespModel{
+	return c.Status(fiber.StatusCreated).JSON(http.SuccessRespModel{
 		Code:    fiber.StatusCreated,
 		Message: "CREATED",
 		Data:    author,
@@ -68,7 +68,7 @@ func (h *httpHandler) FindById(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.Status(fiber.StatusOK).JSON(httpAdapter.SuccessRespModel{
+	return c.Status(fiber.StatusOK).JSON(http.SuccessRespModel{
 		Code:    fiber.StatusOK,
 		Message: "OK",
 		Data:    author,
@@ -95,7 +95,7 @@ func (h *httpHandler) Update(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.Status(fiber.StatusOK).JSON(httpAdapter.SuccessRespModel{
+	return c.Status(fiber.StatusOK).JSON(http.SuccessRespModel{
 		Code:    fiber.StatusOK,
 		Message: "OK",
 		Data:    author,
@@ -112,7 +112,7 @@ func (h *httpHandler) Delete(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.Status(fiber.StatusOK).JSON(httpAdapter.SuccessRespModel{
+	return c.Status(fiber.StatusOK).JSON(http.SuccessRespModel{
 		Code:    fiber.StatusOK,
 		Message: "OK",
 	})

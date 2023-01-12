@@ -2,7 +2,7 @@ package delivery
 
 import (
 	"github.com/gofiber/fiber/v2"
-	httpAdapter "github.com/triskacode/go-clean-arch/infrastructure/http"
+	"github.com/triskacode/go-clean-arch/infrastructure/http"
 )
 
 type httpHandler struct {
@@ -15,7 +15,7 @@ func NewHttpHandler() (h *httpHandler) {
 }
 
 func (h *httpHandler) FindAll(c *fiber.Ctx) error {
-	return c.Status(fiber.StatusOK).JSON(httpAdapter.SuccessRespModel{
+	return c.Status(fiber.StatusOK).JSON(http.SuccessRespModel{
 		Code:    fiber.StatusOK,
 		Message: "OK",
 	})
