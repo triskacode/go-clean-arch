@@ -23,7 +23,10 @@ func main() {
 	}
 	authorMod := author.NewModule(authorDeps)
 
-	articleDeps := article.ModuleDeps{App: appSvc.GetApp()}
+	articleDeps := article.ModuleDeps{
+		App: appSvc.GetApp(),
+		DB:  dbSvc.GetConnection(),
+	}
 	articleMod := article.NewModule(articleDeps)
 
 	authorMod.InitializeRoute()

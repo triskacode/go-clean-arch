@@ -1,4 +1,4 @@
-package transformers
+package transformer
 
 import (
 	"github.com/triskacode/go-clean-arch/domain"
