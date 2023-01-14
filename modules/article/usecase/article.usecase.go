@@ -9,17 +9,17 @@ import (
 	"github.com/triskacode/go-clean-arch/exception"
 	"github.com/triskacode/go-clean-arch/helper/transformer"
 	"github.com/triskacode/go-clean-arch/modules/article/adapter"
-	authorAdapter "github.com/triskacode/go-clean-arch/modules/author/adapter"
+	author "github.com/triskacode/go-clean-arch/modules/author/adapter"
 	"gorm.io/gorm"
 )
 
 type articleUsecase struct {
 	transformArticle  transformer.ArticleTransformer
 	articleRepository adapter.ArticleRepository
-	authorRepository  authorAdapter.AuthorRepository
+	authorRepository  author.AuthorRepository
 }
 
-func NewArticleUsecase(articleRepository adapter.ArticleRepository, authorRepository authorAdapter.AuthorRepository) (u *articleUsecase) {
+func NewArticleUsecase(articleRepository adapter.ArticleRepository, authorRepository author.AuthorRepository) (u *articleUsecase) {
 	u = new(articleUsecase)
 	u.transformArticle = transformer.NewArticleTransformer()
 	u.articleRepository = articleRepository

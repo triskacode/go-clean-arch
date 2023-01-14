@@ -6,7 +6,7 @@ import (
 	"github.com/triskacode/go-clean-arch/modules/article/delivery"
 	"github.com/triskacode/go-clean-arch/modules/article/repository"
 	"github.com/triskacode/go-clean-arch/modules/article/usecase"
-	authorAdapter "github.com/triskacode/go-clean-arch/modules/author/adapter"
+	author "github.com/triskacode/go-clean-arch/modules/author/adapter"
 	"gorm.io/gorm"
 )
 
@@ -20,7 +20,7 @@ type articleAdapter struct {
 type ModuleDeps struct {
 	App              *fiber.App
 	DB               *gorm.DB
-	AuthorRepository authorAdapter.AuthorRepository
+	AuthorRepository author.AuthorRepository
 }
 
 func NewModule(deps ModuleDeps) (m *articleAdapter) {

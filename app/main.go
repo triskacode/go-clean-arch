@@ -17,18 +17,16 @@ func main() {
 
 	dbSvc.Migrate(&entity.Article{}, &entity.Author{})
 
-	authorDeps := author.ModuleDeps{
+	authorMod := author.NewModule(author.ModuleDeps{
 		App: appSvc.GetApp(),
 		DB:  dbSvc.GetConnection(),
-	}
-	authorMod := author.NewModule(authorDeps)
+	})
 
-	articleDeps := article.ModuleDeps{
+	articleMod := article.NewModule(article.ModuleDeps{
 		App:              appSvc.GetApp(),
 		DB:               dbSvc.GetConnection(),
 		AuthorRepository: authorMod.GetAuthorRepository(),
-	}
-	articleMod := article.NewModule(articleDeps)
+	})
 
 	authorMod.InitializeRoute()
 	articleMod.InitializeRoute()

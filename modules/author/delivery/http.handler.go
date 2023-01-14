@@ -38,7 +38,7 @@ func (h *httpHandler) FindAll(c *fiber.Ctx) error {
 func (h *httpHandler) Create(c *fiber.Ctx) error {
 	f := new(dto.CreateAuthorDto)
 	if err := c.BodyParser(f); err != nil {
-		return exception.NewBadRequestException(nil)
+		return exception.NewBadRequestException("invalid request body")
 	}
 
 	if err := h.validator.ValidateCreateAuthorDto(*f); err != nil {
@@ -83,7 +83,7 @@ func (h *httpHandler) Update(c *fiber.Ctx) error {
 
 	f := new(dto.UpdateAuthorDto)
 	if err := c.BodyParser(f); err != nil {
-		return exception.NewBadRequestException(nil)
+		return exception.NewBadRequestException("invalid request body")
 	}
 
 	if err := h.validator.ValidateUpdateAuthorDto(*f); err != nil {
