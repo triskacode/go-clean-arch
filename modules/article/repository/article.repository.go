@@ -26,7 +26,8 @@ func (r *articleRepository) FindAll(articles *[]*entity.Article) error {
 }
 
 func (r *articleRepository) Create(article *entity.Article) error {
-	if result := r.conn.Omit(clause.Associations).Create(article); result.Error != nil {
+	q := r.conn.Omit(clause.Associations)
+	if result := q.Create(article); result.Error != nil {
 		return result.Error
 	}
 

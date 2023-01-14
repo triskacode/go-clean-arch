@@ -35,7 +35,7 @@ func (t *authorTransformer) ToSingleResponse(author *entity.Author) *dto.AuthorR
 		ID:        author.ID,
 		Name:      author.Name,
 		Title:     author.Title,
-		Articles:  t.transformArticle.ToSliceResponse(author.Articles),
+		Articles:  *t.transformArticle.ToSliceResponse(author.Articles),
 		CreatedAt: author.CreatedAt,
 		UpdatedAt: author.UpdatedAt,
 	}

@@ -22,7 +22,7 @@ type AuthorResponseDto struct {
 	ID        uint                  `json:"id,omitempty"`
 	Name      string                `json:"name,omitempty"`
 	Title     string                `json:"title,omitempty"`
-	Articles  *[]ArticleResponseDto `json:"articles,omitempty"`
+	Articles  []ArticleResponseDto `json:"articles,omitempty"`
 	CreatedAt time.Time             `json:"created_at,omitempty"`
 	UpdatedAt time.Time             `json:"updated_at,omitempty"`
 }
