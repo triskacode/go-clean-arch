@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/triskacode/go-clean-arch/config"
-	"github.com/triskacode/go-clean-arch/domain"
+	"github.com/triskacode/go-clean-arch/domain/entity"
 	"github.com/triskacode/go-clean-arch/infrastructure/database"
 	"github.com/triskacode/go-clean-arch/infrastructure/http"
 	article "github.com/triskacode/go-clean-arch/modules/article/bootstrap"
@@ -15,7 +15,7 @@ func main() {
 	dbSvc := database.NewDatabaseService(cfg)
 	defer dbSvc.CloseConnection()
 
-	dbSvc.Migrate(&domain.Article{}, &domain.Author{})
+	dbSvc.Migrate(&entity.Article{}, &entity.Author{})
 
 	authorDeps := author.ModuleDeps{
 		App: appSvc.GetApp(),
@@ -24,8 +24,9 @@ func main() {
 	authorMod := author.NewModule(authorDeps)
 
 	articleDeps := article.ModuleDeps{
-		App: appSvc.GetApp(),
-		DB:  dbSvc.GetConnection(),
+		App:              appSvc.GetApp(),
+		DB:               dbSvc.GetConnection(),
+		AuthorRepository: authorMod.GetAuthorRepository(),
 	}
 	articleMod := article.NewModule(articleDeps)
 

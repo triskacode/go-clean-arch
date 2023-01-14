@@ -6,6 +6,7 @@ import (
 	"github.com/triskacode/go-clean-arch/modules/article/delivery"
 	"github.com/triskacode/go-clean-arch/modules/article/repository"
 	"github.com/triskacode/go-clean-arch/modules/article/usecase"
+	authorAdapter "github.com/triskacode/go-clean-arch/modules/author/adapter"
 	"gorm.io/gorm"
 )
 
@@ -17,15 +18,16 @@ type articleAdapter struct {
 }
 
 type ModuleDeps struct {
-	App *fiber.App
-	DB  *gorm.DB
+	App              *fiber.App
+	DB               *gorm.DB
+	AuthorRepository authorAdapter.AuthorRepository
 }
 
 func NewModule(deps ModuleDeps) (m *articleAdapter) {
 	m = new(articleAdapter)
 	m.app = deps.App
 	m.articleRepository = repository.NewArticleRepository(deps.DB)
-	m.articleUsecase = usecase.NewArticleUsecase(m.GetArticleRepository())
+	m.articleUsecase = usecase.NewArticleUsecase(m.GetArticleRepository(), deps.AuthorRepository)
 	m.httpHandler = delivery.NewHttpHandler(m.GetArticleUsecase())
 
 	return
@@ -33,6 +35,7 @@ func NewModule(deps ModuleDeps) (m *articleAdapter) {
 
 func (m *articleAdapter) InitializeRoute() {
 	m.app.Get("/article", m.GetHttpHandler().FindAll)
+	m.app.Post("/article", m.GetHttpHandler().Create)
 }
 
 func (m *articleAdapter) GetHttpHandler() adapter.HttpHandler {

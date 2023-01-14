@@ -1,8 +1,8 @@
 package validation
 
 import (
+	"github.com/triskacode/go-clean-arch/domain/dto"
 	"github.com/triskacode/go-clean-arch/infrastructure/validator"
-	"github.com/triskacode/go-clean-arch/modules/author/dto"
 )
 
 type AuthorValidator interface {
@@ -14,10 +14,15 @@ type authorValidator struct {
 	validator validator.ValidatorAdapter
 }
 
-func NewAuthorValidator() (v *authorValidator) {
-	v = new(authorValidator)
-	v.validator = validator.NewCustomValidator()
+var _authorValidator *authorValidator
 
+func NewAuthorValidator() (v *authorValidator) {
+	if _authorValidator == nil {
+		_authorValidator = new(authorValidator)
+		_authorValidator.validator = validator.NewCustomValidator()
+	}
+
+	v = _authorValidator
 	return
 }
 

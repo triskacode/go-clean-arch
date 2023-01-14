@@ -1,15 +1,15 @@
-package domain
+package entity
 
 import (
 	"database/sql"
 	"time"
 )
 
-type Article struct {
+type Author struct {
 	ID        uint `gorm:"primarykey"`
+	Name      string
 	Title     string
-	Content   string
-	AuthorID  uint
+	Articles  []*Article `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt sql.NullTime `gorm:"index"`

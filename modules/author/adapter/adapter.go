@@ -2,9 +2,9 @@ package adapter
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/triskacode/go-clean-arch/domain"
+	"github.com/triskacode/go-clean-arch/domain/dto"
+	"github.com/triskacode/go-clean-arch/domain/entity"
 	"github.com/triskacode/go-clean-arch/exception"
-	"github.com/triskacode/go-clean-arch/modules/author/dto"
 )
 
 type AuthorAdapter interface {
@@ -31,9 +31,9 @@ type AuthorUsecase interface {
 }
 
 type AuthorRepository interface {
-	FindAll(authors *[]domain.Author) error
-	Create(author *domain.Author) error
-	FindById(author *domain.Author) error
-	Update(author *domain.Author, f dto.UpdateAuthorDto) error
-	Delete(author *domain.Author) error
+	FindAll(authors *[]*entity.Author) error
+	Create(author *entity.Author) error
+	FindById(author *entity.Author) error
+	Update(author *entity.Author, f dto.UpdateAuthorDto) error
+	Delete(author *entity.Author) error
 }

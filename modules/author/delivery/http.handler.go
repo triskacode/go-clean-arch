@@ -2,11 +2,11 @@ package delivery
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/triskacode/go-clean-arch/domain/dto"
 	"github.com/triskacode/go-clean-arch/exception"
+	"github.com/triskacode/go-clean-arch/helper/validation"
 	"github.com/triskacode/go-clean-arch/infrastructure/http"
 	"github.com/triskacode/go-clean-arch/modules/author/adapter"
-	"github.com/triskacode/go-clean-arch/modules/author/dto"
-	"github.com/triskacode/go-clean-arch/modules/author/validation"
 )
 
 type httpHandler struct {

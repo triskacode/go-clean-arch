@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/triskacode/go-clean-arch/domain"
-	"github.com/triskacode/go-clean-arch/modules/author/dto"
+	"github.com/triskacode/go-clean-arch/domain/dto"
+	"github.com/triskacode/go-clean-arch/domain/entity"
 	"gorm.io/gorm"
 )
 
@@ -17,7 +17,7 @@ func NewAuthorRepository(conn *gorm.DB) (r *authorRepository) {
 	return
 }
 
-func (r *authorRepository) FindAll(authors *[]domain.Author) error {
+func (r *authorRepository) FindAll(authors *[]*entity.Author) error {
 	if result := r.conn.Find(authors); result.Error != nil {
 		return result.Error
 	}
@@ -25,7 +25,7 @@ func (r *authorRepository) FindAll(authors *[]domain.Author) error {
 	return nil
 }
 
-func (r *authorRepository) Create(author *domain.Author) error {
+func (r *authorRepository) Create(author *entity.Author) error {
 	if result := r.conn.Create(author); result.Error != nil {
 		return result.Error
 	}
@@ -33,7 +33,7 @@ func (r *authorRepository) Create(author *domain.Author) error {
 	return nil
 }
 
-func (r *authorRepository) FindById(author *domain.Author) error {
+func (r *authorRepository) FindById(author *entity.Author) error {
 	if result := r.conn.First(author); result.Error != nil {
 		return result.Error
 	}
@@ -41,8 +41,8 @@ func (r *authorRepository) FindById(author *domain.Author) error {
 	return nil
 }
 
-func (r *authorRepository) Update(author *domain.Author, f dto.UpdateAuthorDto) error {
-	updateSet := domain.Author{
+func (r *authorRepository) Update(author *entity.Author, f dto.UpdateAuthorDto) error {
+	updateSet := entity.Author{
 		Name:  *f.Name,
 		Title: *f.Title,
 	}
@@ -57,7 +57,7 @@ func (r *authorRepository) Update(author *domain.Author, f dto.UpdateAuthorDto) 
 	return nil
 }
 
-func (r *authorRepository) Delete(author *domain.Author) error {
+func (r *authorRepository) Delete(author *entity.Author) error {
 	switch result := r.conn.Delete(author); {
 	case result.Error != nil:
 		return result.Error

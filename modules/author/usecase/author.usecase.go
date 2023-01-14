@@ -3,11 +3,11 @@ package usecase
 import (
 	"errors"
 
-	"github.com/triskacode/go-clean-arch/domain"
+	"github.com/triskacode/go-clean-arch/domain/dto"
+	"github.com/triskacode/go-clean-arch/domain/entity"
 	"github.com/triskacode/go-clean-arch/exception"
+	"github.com/triskacode/go-clean-arch/helper/transformer"
 	"github.com/triskacode/go-clean-arch/modules/author/adapter"
-	"github.com/triskacode/go-clean-arch/modules/author/dto"
-	"github.com/triskacode/go-clean-arch/modules/author/transformer"
 	"gorm.io/gorm"
 )
 
@@ -25,7 +25,7 @@ func NewAuthorUsecase(authorRepository adapter.AuthorRepository) (u *authorUseca
 }
 
 func (u *authorUsecase) FindAll() (r *[]dto.AuthorResponseDto, e *exception.HttpException) {
-	authors := make([]domain.Author, 0)
+	authors := make([]*entity.Author, 0)
 
 	if err := u.authorRepository.FindAll(&authors); err != nil {
 		e = exception.NewInternalServerErrorException(err.Error())
@@ -37,12 +37,12 @@ func (u *authorUsecase) FindAll() (r *[]dto.AuthorResponseDto, e *exception.Http
 }
 
 func (u *authorUsecase) Create(f dto.CreateAuthorDto) (r *dto.AuthorResponseDto, e *exception.HttpException) {
-	author := domain.Author{
+	author := &entity.Author{
 		Name:  f.Name,
 		Title: f.Title,
 	}
 
-	if err := u.authorRepository.Create(&author); err != nil {
+	if err := u.authorRepository.Create(author); err != nil {
 		e = exception.NewInternalServerErrorException(err.Error())
 		return
 	}
@@ -52,11 +52,11 @@ func (u *authorUsecase) Create(f dto.CreateAuthorDto) (r *dto.AuthorResponseDto,
 }
 
 func (u *authorUsecase) FindById(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e *exception.HttpException) {
-	author := domain.Author{
+	author := &entity.Author{
 		ID: p.ID,
 	}
 
-	if err := u.authorRepository.FindById(&author); err != nil {
+	if err := u.authorRepository.FindById(author); err != nil {
 		switch {
 		case errors.Is(err, gorm.ErrRecordNotFound):
 			e = exception.NewNotFoundException(err.Error())
@@ -72,11 +72,11 @@ func (u *authorUsecase) FindById(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e 
 }
 
 func (u *authorUsecase) Update(p dto.ParamIdDto, f dto.UpdateAuthorDto) (r *dto.AuthorResponseDto, e *exception.HttpException) {
-	author := domain.Author{
+	author := &entity.Author{
 		ID: p.ID,
 	}
 
-	if err := u.authorRepository.Update(&author, f); err != nil {
+	if err := u.authorRepository.Update(author, f); err != nil {
 		switch {
 		case errors.Is(err, gorm.ErrRecordNotFound):
 			e = exception.NewNotFoundException(err.Error())
@@ -92,11 +92,11 @@ func (u *authorUsecase) Update(p dto.ParamIdDto, f dto.UpdateAuthorDto) (r *dto.
 }
 
 func (u *authorUsecase) Delete(p dto.ParamIdDto) *exception.HttpException {
-	author := domain.Author{
+	author := &entity.Author{
 		ID: p.ID,
 	}
 
-	if err := u.authorRepository.Delete(&author); err != nil {
+	if err := u.authorRepository.Delete(author); err != nil {
 		switch {
 		case errors.Is(err, gorm.ErrRecordNotFound):
 			return exception.NewNotFoundException(err.Error())
