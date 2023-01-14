@@ -5,6 +5,7 @@ import (
 
 	"github.com/triskacode/go-clean-arch/config"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type databaseService struct {
@@ -16,6 +17,12 @@ func NewDatabaseService(cfg *config.Config) (dbSvc *databaseService) {
 	db, err := newSqliteConnection(cfg.Database.Sqlite.Name)
 	if err != nil {
 		panic(fmt.Errorf("cannot connect database: %w", err))
+	}
+
+	if cfg.Environment == "development" {
+		db = db.Session(&gorm.Session{
+			Logger: logger.Default.LogMode(logger.Info),
+		})
 	}
 
 	dbSvc = new(databaseService)

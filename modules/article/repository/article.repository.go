@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/triskacode/go-clean-arch/domain/entity"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type articleRepository struct {
@@ -25,7 +26,7 @@ func (r *articleRepository) FindAll(articles *[]*entity.Article) error {
 }
 
 func (r *articleRepository) Create(article *entity.Article) error {
-	if result := r.conn.Create(article); result.Error != nil {
+	if result := r.conn.Omit(clause.Associations).Create(article); result.Error != nil {
 		return result.Error
 	}
 
