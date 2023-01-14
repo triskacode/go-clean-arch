@@ -12,13 +12,13 @@ import (
 )
 
 type authorUsecase struct {
-	authorTransformer transformer.AuthorTransformer
-	authorRepository  adapter.AuthorRepository
+	transformAuthor  transformer.AuthorTransformer
+	authorRepository adapter.AuthorRepository
 }
 
 func NewAuthorUsecase(authorRepository adapter.AuthorRepository) (u *authorUsecase) {
 	u = new(authorUsecase)
-	u.authorTransformer = transformer.NewAuthorTransformer()
+	u.transformAuthor = transformer.NewAuthorTransformer()
 	u.authorRepository = authorRepository
 
 	return
@@ -32,7 +32,7 @@ func (u *authorUsecase) FindAll() (r *[]dto.AuthorResponseDto, e *exception.Http
 		return
 	}
 
-	r = u.authorTransformer.ToSliceResponse(authors)
+	r = u.transformAuthor.ToSliceResponse(authors)
 	return
 }
 
@@ -47,7 +47,7 @@ func (u *authorUsecase) Create(f dto.CreateAuthorDto) (r *dto.AuthorResponseDto,
 		return
 	}
 
-	r = u.authorTransformer.ToSingleResponse(author)
+	r = u.transformAuthor.ToSingleResponse(author)
 	return
 }
 
@@ -67,7 +67,7 @@ func (u *authorUsecase) FindById(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e 
 		}
 	}
 
-	r = u.authorTransformer.ToSingleResponse(author)
+	r = u.transformAuthor.ToSingleResponse(author)
 	return
 }
 
@@ -87,7 +87,7 @@ func (u *authorUsecase) Update(p dto.ParamIdDto, f dto.UpdateAuthorDto) (r *dto.
 		}
 	}
 
-	r = u.authorTransformer.ToSingleResponse(author)
+	r = u.transformAuthor.ToSingleResponse(author)
 	return
 }
 

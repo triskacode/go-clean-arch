@@ -14,14 +14,14 @@ import (
 )
 
 type articleUsecase struct {
-	articleTransformer transformer.ArticleTransformer
-	articleRepository  adapter.ArticleRepository
-	authorRepository   authorAdapter.AuthorRepository
+	transformArticle  transformer.ArticleTransformer
+	articleRepository adapter.ArticleRepository
+	authorRepository  authorAdapter.AuthorRepository
 }
 
 func NewArticleUsecase(articleRepository adapter.ArticleRepository, authorRepository authorAdapter.AuthorRepository) (u *articleUsecase) {
 	u = new(articleUsecase)
-	u.articleTransformer = transformer.NewArticleTransformer()
+	u.transformArticle = transformer.NewArticleTransformer()
 	u.articleRepository = articleRepository
 	u.authorRepository = authorRepository
 
@@ -36,7 +36,7 @@ func (u *articleUsecase) FindAll() (r *[]dto.ArticleResponseDto, e *exception.Ht
 		return
 	}
 
-	r = u.articleTransformer.ToSliceResponse(articles)
+	r = u.transformArticle.ToSliceResponse(articles)
 	return
 }
 
@@ -51,7 +51,7 @@ func (u *articleUsecase) Create(f dto.CreateArticleDto) (r *dto.ArticleResponseD
 			message := fmt.Sprintf("author with id: %d not found", f.AuthorID)
 			e = exception.NewBadRequestException(message)
 			return
-		default:	
+		default:
 			e = exception.NewInternalServerErrorException(err.Error())
 			return
 		}
@@ -69,6 +69,6 @@ func (u *articleUsecase) Create(f dto.CreateArticleDto) (r *dto.ArticleResponseD
 		return
 	}
 
-	r = u.articleTransformer.ToSingleResponse(article)
+	r = u.transformArticle.ToSingleResponse(article)
 	return
 }
