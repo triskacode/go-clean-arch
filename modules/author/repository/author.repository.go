@@ -33,7 +33,7 @@ func (r *authorRepository) Create(author *entity.Author) error {
 	return nil
 }
 
-func (r *authorRepository) FindById(author *entity.Author) error {
+func (r *authorRepository) FindOne(author *entity.Author) error {
 	if result := r.conn.First(author); result.Error != nil {
 		return result.Error
 	}

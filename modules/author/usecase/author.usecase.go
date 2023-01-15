@@ -56,7 +56,7 @@ func (u *authorUsecase) FindById(p dto.ParamIdDto) (r *dto.AuthorResponseDto, e 
 		ID: p.ID,
 	}
 
-	if err := u.authorRepository.FindById(author); err != nil {
+	if err := u.authorRepository.FindOne(author); err != nil {
 		switch {
 		case errors.Is(err, gorm.ErrRecordNotFound):
 			e = exception.NewNotFoundException(err.Error())

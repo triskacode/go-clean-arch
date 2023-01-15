@@ -36,6 +36,7 @@ func NewModule(deps ModuleDeps) (m *articleAdapter) {
 func (m *articleAdapter) InitializeRoute() {
 	m.app.Get("/article", m.GetHttpHandler().FindAll)
 	m.app.Post("/article", m.GetHttpHandler().Create)
+	m.app.Get("/article/:id", m.GetHttpHandler().FindById)
 }
 
 func (m *articleAdapter) GetHttpHandler() adapter.HttpHandler {

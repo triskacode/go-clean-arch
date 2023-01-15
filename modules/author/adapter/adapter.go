@@ -33,7 +33,7 @@ type AuthorUsecase interface {
 type AuthorRepository interface {
 	FindAll(authors *[]*entity.Author) error
 	Create(author *entity.Author) error
-	FindById(author *entity.Author) error
+	FindOne(author *entity.Author) error
 	Update(author *entity.Author, f dto.UpdateAuthorDto) error
 	Delete(author *entity.Author) error
 }

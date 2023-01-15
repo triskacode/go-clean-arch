@@ -56,3 +56,21 @@ func (h *httpHandler) Create(c *fiber.Ctx) error {
 		Data:    article,
 	})
 }
+
+func (h *httpHandler) FindById(c *fiber.Ctx) error {
+	p := new(dto.ParamIdDto)
+	if err := c.ParamsParser(p); err != nil {
+		return exception.NewNotFoundException(nil)
+	}
+
+	article, err := h.articleUsecase.FindById(*p)
+	if err != nil {
+		return err
+	}
+
+	return c.Status(fiber.StatusOK).JSON(http.SuccessRespModel{
+		Code:    fiber.StatusOK,
+		Message: "OK",
+		Data:    article,
+	})
+}

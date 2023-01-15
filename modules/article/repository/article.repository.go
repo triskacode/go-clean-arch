@@ -33,3 +33,11 @@ func (r *articleRepository) Create(article *entity.Article) error {
 
 	return nil
 }
+
+func (r *articleRepository) FindOne(article *entity.Article) error {
+	if result := r.conn.First(article); result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}

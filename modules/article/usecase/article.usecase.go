@@ -45,7 +45,7 @@ func (u *articleUsecase) Create(f dto.CreateArticleDto) (r *dto.ArticleResponseD
 		ID: uint(f.AuthorID),
 	}
 
-	if err := u.authorRepository.FindById(author); err != nil {
+	if err := u.authorRepository.FindOne(author); err != nil {
 		switch {
 		case errors.Is(err, gorm.ErrRecordNotFound):
 			message := fmt.Sprintf("author with id: %d not found", f.AuthorID)
@@ -67,6 +67,26 @@ func (u *articleUsecase) Create(f dto.CreateArticleDto) (r *dto.ArticleResponseD
 	if err := u.articleRepository.Create(article); err != nil {
 		e = exception.NewInternalServerErrorException(err.Error())
 		return
+	}
+
+	r = u.transformArticle.ToSingleResponse(article)
+	return
+}
+
+func (u *articleUsecase) FindById(p dto.ParamIdDto) (r *dto.ArticleResponseDto, e *exception.HttpException) {
+	article := &entity.Article{
+		ID: p.ID,
+	}
+
+	if err := u.articleRepository.FindOne(article); err != nil {
+		switch {
+		case errors.Is(err, gorm.ErrRecordNotFound):
+			e = exception.NewNotFoundException(err.Error())
+			return
+		default:
+			e = exception.NewInternalServerErrorException(err.Error())
+			return
+		}
 	}
 
 	r = u.transformArticle.ToSingleResponse(article)

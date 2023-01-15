@@ -9,10 +9,6 @@ type CreateAuthorDto struct {
 	Title string `json:"title" form:"title" validate:"required"`
 }
 
-type ParamIdDto struct {
-	ID uint `params:"id"`
-}
-
 type UpdateAuthorDto struct {
 	Name  *string `json:"name" form:"name"`
 	Title *string `json:"title" form:"title"`
