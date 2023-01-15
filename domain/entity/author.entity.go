@@ -1,9 +1,6 @@
 package entity
 
-import (
-	"database/sql"
-	"time"
-)
+import "time"
 
 type Author struct {
 	ID        uint `gorm:"primarykey"`
@@ -12,5 +9,5 @@ type Author struct {
 	Articles  []*Article `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt sql.NullTime `gorm:"index"`
+	DeletedAt DeletedAt `gorm:"index"`
 }
