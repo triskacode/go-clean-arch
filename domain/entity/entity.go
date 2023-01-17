@@ -2,4 +2,6 @@ package entity
 
 import "database/sql"
 
-type DeletedAt sql.NullTime
+type DeletedAt struct {
+	sql.NullTime
+}

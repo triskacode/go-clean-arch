@@ -10,6 +10,12 @@ type CreateArticleDto struct {
 	AuthorID int    `json:"author_id,string" form:"author_id" validate:"required,gt=0"`
 }
 
+type UpdateArticleDto struct {
+	Title    string `json:"title" form:"title"`
+	Content  string `json:"content" form:"content"`
+	AuthorID int    `json:"author_id,string" form:"author_id" validate:"omitempty,gt=0"`
+}
+
 type ArticleResponseDto struct {
 	ID        uint               `json:"id,omitempty"`
 	Title     string             `json:"title,omitempty"`

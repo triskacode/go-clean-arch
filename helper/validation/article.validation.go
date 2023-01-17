@@ -7,6 +7,7 @@ import (
 
 type ArticleValidator interface {
 	ValidateCreateArticleDto(f dto.CreateArticleDto) (errModel validator.ValidationErrorModel)
+	ValidateUpdateArticleDto(f dto.UpdateArticleDto) (errModel validator.ValidationErrorModel)
 }
 
 type articleValidator struct {
@@ -26,6 +27,14 @@ func NewArticleValidator() (v *articleValidator) {
 }
 
 func (v *articleValidator) ValidateCreateArticleDto(f dto.CreateArticleDto) (errModel validator.ValidationErrorModel) {
+	if err := v.validator.ValidateStruct(f); err != nil {
+		errModel = v.validator.ParseErrors(err)
+	}
+
+	return
+}
+
+func (v *articleValidator) ValidateUpdateArticleDto(f dto.UpdateArticleDto) (errModel validator.ValidationErrorModel) {
 	if err := v.validator.ValidateStruct(f); err != nil {
 		errModel = v.validator.ParseErrors(err)
 	}

@@ -37,6 +37,7 @@ func (m *articleAdapter) InitializeRoute() {
 	m.app.Get("/article", m.GetHttpHandler().FindAll)
 	m.app.Post("/article", m.GetHttpHandler().Create)
 	m.app.Get("/article/:id", m.GetHttpHandler().FindById)
+	m.app.Patch("/article/:id", m.GetHttpHandler().Update)
 }
 
 func (m *articleAdapter) GetHttpHandler() adapter.HttpHandler {

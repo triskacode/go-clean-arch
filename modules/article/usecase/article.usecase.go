@@ -92,3 +92,43 @@ func (u *articleUsecase) FindById(p dto.ParamIdDto) (r *dto.ArticleResponseDto, 
 	r = u.transformArticle.ToSingleResponse(article)
 	return
 }
+
+func (u *articleUsecase) Update(p dto.ParamIdDto, f dto.UpdateArticleDto) (r *dto.ArticleResponseDto, e *exception.HttpException) {
+	article := &entity.Article{
+		ID: p.ID,
+	}
+
+	if f.AuthorID != 0 {
+		author := &entity.Author{
+			ID: uint(f.AuthorID),
+		}
+
+		if err := u.authorRepository.FindOne(author); err != nil {
+			switch {
+			case errors.Is(err, gorm.ErrRecordNotFound):
+				message := fmt.Sprintf("author with id: %d not found", f.AuthorID)
+				e = exception.NewBadRequestException(message)
+				return
+			default:
+				e = exception.NewInternalServerErrorException(err.Error())
+				return
+			}
+		}
+
+		article.Author = author
+	}
+
+	if err := u.articleRepository.Update(article, f); err != nil {
+		switch {
+		case errors.Is(err, gorm.ErrRecordNotFound):
+			e = exception.NewNotFoundException(err.Error())
+			return
+		default:
+			e = exception.NewInternalServerErrorException(err.Error())
+			return
+		}
+	}
+
+	r = u.transformArticle.ToSingleResponse(article)
+	return
+}

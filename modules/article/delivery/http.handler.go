@@ -1,6 +1,8 @@
 package delivery
 
 import (
+	"log"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/triskacode/go-clean-arch/domain/dto"
 	"github.com/triskacode/go-clean-arch/exception"
@@ -64,6 +66,34 @@ func (h *httpHandler) FindById(c *fiber.Ctx) error {
 	}
 
 	article, err := h.articleUsecase.FindById(*p)
+	if err != nil {
+		return err
+	}
+
+	return c.Status(fiber.StatusOK).JSON(http.SuccessRespModel{
+		Code:    fiber.StatusOK,
+		Message: "OK",
+		Data:    article,
+	})
+}
+
+func (h *httpHandler) Update(c *fiber.Ctx) error {
+	p := new(dto.ParamIdDto)
+	if err := c.ParamsParser(p); err != nil {
+		return exception.NewNotFoundException(nil)
+	}
+
+	f := new(dto.UpdateArticleDto)
+	if err := c.BodyParser(f); err != nil {
+		return exception.NewBadRequestException("invalid request body")
+	}
+
+	if err := h.validator.ValidateUpdateArticleDto(*f); err != nil {
+		return exception.NewBadRequestException(err)
+	}
+	log.Println(*f)
+
+	article, err := h.articleUsecase.Update(*p, *f)
 	if err != nil {
 		return err
 	}
