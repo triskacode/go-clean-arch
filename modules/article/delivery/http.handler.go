@@ -1,8 +1,6 @@
 package delivery
 
 import (
-	"log"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/triskacode/go-clean-arch/domain/dto"
 	"github.com/triskacode/go-clean-arch/exception"
@@ -91,7 +89,6 @@ func (h *httpHandler) Update(c *fiber.Ctx) error {
 	if err := h.validator.ValidateUpdateArticleDto(*f); err != nil {
 		return exception.NewBadRequestException(err)
 	}
-	log.Println(*f)
 
 	article, err := h.articleUsecase.Update(*p, *f)
 	if err != nil {
