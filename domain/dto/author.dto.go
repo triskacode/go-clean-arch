@@ -10,15 +10,15 @@ type CreateAuthorDto struct {
 }
 
 type UpdateAuthorDto struct {
-	Name  *string `json:"name" form:"name"`
-	Title *string `json:"title" form:"title"`
+	Name  string `json:"name" form:"name"`
+	Title string `json:"title" form:"title"`
 }
 
 type AuthorResponseDto struct {
-	ID        uint                  `json:"id,omitempty"`
-	Name      string                `json:"name,omitempty"`
-	Title     string                `json:"title,omitempty"`
+	ID        uint                 `json:"id,omitempty"`
+	Name      string               `json:"name,omitempty"`
+	Title     string               `json:"title,omitempty"`
 	Articles  []ArticleResponseDto `json:"articles,omitempty"`
-	CreatedAt time.Time             `json:"created_at,omitempty"`
-	UpdatedAt time.Time             `json:"updated_at,omitempty"`
+	CreatedAt time.Time            `json:"created_at,omitempty"`
+	UpdatedAt time.Time            `json:"updated_at,omitempty"`
 }

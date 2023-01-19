@@ -4,6 +4,7 @@ import (
 	"github.com/triskacode/go-clean-arch/domain/dto"
 	"github.com/triskacode/go-clean-arch/domain/entity"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type authorRepository struct {
@@ -43,11 +44,13 @@ func (r *authorRepository) FindOne(author *entity.Author) error {
 
 func (r *authorRepository) Update(author *entity.Author, f dto.UpdateAuthorDto) error {
 	updateSet := entity.Author{
-		Name:  *f.Name,
-		Title: *f.Title,
+		Name:  f.Name,
+		Title: f.Title,
 	}
 
-	switch result := r.conn.Model(author).Updates(updateSet); {
+	q := r.conn.Model(author)
+	q = q.Clauses(clause.Returning{})
+	switch result := q.Updates(updateSet); {
 	case result.Error != nil:
 		return result.Error
 	case result.RowsAffected == 0:
