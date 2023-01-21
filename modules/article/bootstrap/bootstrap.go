@@ -38,6 +38,7 @@ func (m *articleAdapter) InitializeRoute() {
 	m.app.Post("/article", m.GetHttpHandler().Create)
 	m.app.Get("/article/:id", m.GetHttpHandler().FindById)
 	m.app.Patch("/article/:id", m.GetHttpHandler().Update)
+	m.app.Delete("/article/:id", m.GetHttpHandler().Delete)
 }
 
 func (m *articleAdapter) GetHttpHandler() adapter.HttpHandler {

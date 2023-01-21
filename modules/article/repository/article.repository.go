@@ -62,3 +62,14 @@ func (r *articleRepository) Update(article *entity.Article, f dto.UpdateArticleD
 
 	return nil
 }
+
+func (r *articleRepository) Delete(article *entity.Article) error {
+	switch result := r.conn.Delete(article); {
+	case result.Error != nil:
+		return result.Error
+	case result.RowsAffected == 0:
+		return gorm.ErrRecordNotFound
+	}
+
+	return nil
+}

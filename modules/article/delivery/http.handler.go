@@ -101,3 +101,19 @@ func (h *httpHandler) Update(c *fiber.Ctx) error {
 		Data:    article,
 	})
 }
+
+func (h *httpHandler) Delete(c *fiber.Ctx) error {
+	p := new(dto.ParamIdDto)
+	if err := c.ParamsParser(p); err != nil {
+		return exception.NewNotFoundException(nil)
+	}
+
+	if err := h.articleUsecase.Delete(*p); err != nil {
+		return err
+	}
+
+	return c.Status(fiber.StatusOK).JSON(http.SuccessRespModel{
+		Code:    fiber.StatusOK,
+		Message: "OK",
+	})
+}

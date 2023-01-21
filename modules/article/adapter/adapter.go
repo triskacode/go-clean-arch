@@ -19,6 +19,7 @@ type HttpHandler interface {
 	Create(c *fiber.Ctx) error
 	FindById(c *fiber.Ctx) error
 	Update(c *fiber.Ctx) error
+	Delete(c *fiber.Ctx) error
 }
 
 type ArticleUsecase interface {
@@ -26,6 +27,7 @@ type ArticleUsecase interface {
 	Create(f dto.CreateArticleDto) (r *dto.ArticleResponseDto, e *exception.HttpException)
 	FindById(p dto.ParamIdDto) (r *dto.ArticleResponseDto, e *exception.HttpException)
 	Update(p dto.ParamIdDto, f dto.UpdateArticleDto) (r *dto.ArticleResponseDto, e *exception.HttpException)
+	Delete(p dto.ParamIdDto) *exception.HttpException
 }
 
 type ArticleRepository interface {
@@ -33,4 +35,5 @@ type ArticleRepository interface {
 	Create(article *entity.Article) error
 	FindOne(article *entity.Article) error
 	Update(article *entity.Article, f dto.UpdateArticleDto) error
+	Delete(article *entity.Article) error
 }

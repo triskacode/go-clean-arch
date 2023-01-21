@@ -132,3 +132,20 @@ func (u *articleUsecase) Update(p dto.ParamIdDto, f dto.UpdateArticleDto) (r *dt
 	r = u.transformArticle.ToSingleResponse(article)
 	return
 }
+
+func (u *articleUsecase) Delete(p dto.ParamIdDto) *exception.HttpException {
+	article := &entity.Article{
+		ID: p.ID,
+	}
+
+	if err := u.articleRepository.Delete(article); err != nil {
+		switch {
+		case errors.Is(err, gorm.ErrRecordNotFound):
+			return exception.NewNotFoundException(err.Error())
+		default:
+			return exception.NewInternalServerErrorException(err.Error())
+		}
+	}
+
+	return nil
+}
