@@ -61,7 +61,7 @@ func (r *authorRepository) Update(author *entity.Author, f dto.UpdateAuthorDto) 
 }
 
 func (r *authorRepository) Delete(author *entity.Author) error {
-	switch result := r.conn.Delete(author); {
+	switch result := r.conn.Select(clause.Associations).Delete(author); {
 	case result.Error != nil:
 		return result.Error
 	case result.RowsAffected == 0:

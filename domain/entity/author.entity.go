@@ -9,5 +9,4 @@ type Author struct {
 	Articles  []*Article `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	DeletedAt DeletedAt `gorm:"index"`
 }
